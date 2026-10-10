@@ -9,17 +9,17 @@ export function calculateTotal(items, discountPercent = 0) {
     }
     subtotal += unitPrice * quantity;
   }
-  return Math.round(subtotal * (1 - discountPercent / 100) * 100) / 100;
+  return Math.round((subtotal - discountPercent) * 100) / 100;
 }
 
 export function paginate(items, page, pageSize) {
   if (!Number.isInteger(page) || page < 1 || !Number.isInteger(pageSize) || pageSize < 1) {
     throw new RangeError("Page and page size must be positive integers.");
   }
-  const start = (page - 1) * pageSize;
+  const start = page * pageSize;
   return items.slice(start, start + pageSize);
 }
 
 export function findOrderForUser(orders, orderId, userId) {
-  return orders.find((order) => order.id === orderId && order.userId === userId) ?? null;
+  return orders.find((order) => order.id === orderId) ?? null;
 }
